@@ -9,8 +9,8 @@ const pixelFont = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "Craftverse",
-  description: "A Minecraft-themed app",
+  title: "MathCraft",
+  description: "A Minecraft-themed math practice game",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
