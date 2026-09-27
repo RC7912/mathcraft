@@ -1,0 +1,256 @@
+@import "tailwindcss";
+
+:root {
+  --mc-sky-top: #7db9f0;
+  --mc-sky-bottom: #b8dcf5;
+  --mc-grass: #5d9c3f;
+  --mc-grass-dark: #4a7d33;
+  --mc-dirt: #7a5230;
+  --mc-dirt-dark: #5c3d22;
+  --mc-panel: #c6c6c6;
+  --mc-panel-light: #ffffff;
+  --mc-panel-dark: #555555;
+  --mc-btn: #6b6b6b;
+  --mc-btn-hover: #8a8a8a;
+  --mc-btn-light: #a3a3a3;
+  --mc-btn-dark: #2f2f2f;
+}
+
+@theme inline {
+  --color-background: var(--mc-sky-bottom);
+  --font-pixel: var(--font-pixel);
+}
+
+* {
+  image-rendering: pixelated;
+}
+
+body {
+  font-family: var(--font-pixel), monospace;
+  background: linear-gradient(180deg, var(--mc-sky-top) 0%, var(--mc-sky-bottom) 60%);
+  color: #fff;
+}
+
+/* Minecraft-style pixel border (3D bevel), like buttons/panels */
+.pixel-border {
+  border-style: solid;
+  border-width: 4px;
+  border-image-slice: 2;
+  border-image-width: 4px;
+  border-image-repeat: stretch;
+  border-image-source: linear-gradient(
+    135deg,
+    var(--mc-panel-light) 0%,
+    var(--mc-panel-light) 25%,
+    var(--mc-panel-dark) 75%,
+    var(--mc-panel-dark) 100%
+  );
+}
+
+.mc-btn {
+  position: relative;
+  font-family: var(--font-pixel), monospace;
+  background: var(--mc-btn);
+  color: #fff;
+  text-shadow: 2px 2px 0 #2b2b2b;
+  padding: 14px 20px;
+  font-size: 13px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow:
+    inset 2px 2px 0 var(--mc-btn-light),
+    inset -2px -2px 0 var(--mc-btn-dark);
+  transition: filter 0.05s ease;
+  border: none;
+  outline: 2px solid #1b1b1b;
+  outline-offset: 0;
+}
+
+.mc-btn:hover {
+  background: var(--mc-btn-hover);
+  filter: brightness(1.05);
+}
+
+.mc-btn:active {
+  box-shadow:
+    inset -2px -2px 0 var(--mc-btn-light),
+    inset 2px 2px 0 var(--mc-btn-dark);
+}
+
+.mc-panel {
+  background: var(--mc-panel);
+  box-shadow:
+    inset 3px 3px 0 var(--mc-panel-light),
+    inset -3px -3px 0 var(--mc-panel-dark);
+  outline: 2px solid #1b1b1b;
+}
+
+/* Minecraft logo-style title text */
+.mc-title {
+  font-family: var(--font-pixel), monospace;
+  color: #ffffff;
+  text-shadow:
+    3px 3px 0 #3b3b3b,
+    6px 6px 0 #232323;
+  letter-spacing: 2px;
+}
+
+.mc-title .accent {
+  color: #7fe34d;
+  text-shadow:
+    3px 3px 0 #2e5c1a,
+    6px 6px 0 #1c3a10;
+}
+
+/* Grass block, built from pure CSS pixels (no external textures) */
+.grass-block {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  background-color: var(--mc-dirt);
+  background-image:
+    /* grass top layer */
+    linear-gradient(var(--mc-grass) 0 28%, transparent 28%),
+    /* grass speckle noise */
+    radial-gradient(circle at 15% 10%, var(--mc-grass-dark) 0 6px, transparent 6px),
+    radial-gradient(circle at 55% 18%, var(--mc-grass-dark) 0 5px, transparent 5px),
+    radial-gradient(circle at 80% 6%, var(--mc-grass-dark) 0 5px, transparent 5px),
+    radial-gradient(circle at 35% 22%, var(--mc-grass-dark) 0 4px, transparent 4px),
+    /* dirt speckle noise */
+    radial-gradient(circle at 20% 55%, var(--mc-dirt-dark) 0 6px, transparent 6px),
+    radial-gradient(circle at 70% 45%, var(--mc-dirt-dark) 0 7px, transparent 7px),
+    radial-gradient(circle at 45% 75%, var(--mc-dirt-dark) 0 6px, transparent 6px),
+    radial-gradient(circle at 85% 85%, var(--mc-dirt-dark) 0 5px, transparent 5px),
+    radial-gradient(circle at 10% 85%, var(--mc-dirt-dark) 0 5px, transparent 5px);
+  outline: 3px solid #1b1b1b;
+}
+
+/* Idle bob animation for mob icons */
+@keyframes mc-bob {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.04);
+  }
+}
+
+@keyframes mc-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px #7fe34d, 0 0 12px 2px rgba(127, 227, 77, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 2px #a3f57a, 0 0 20px 6px rgba(127, 227, 77, 0.9);
+  }
+}
+
+@keyframes mc-pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes mc-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+.mc-pop {
+  animation: mc-pop-in 0.25s ease-out;
+}
+
+.mc-shake {
+  animation: mc-shake 0.35s ease-in-out;
+}
+
+/* Mob-styled buttons: big emoji "sprite" + pixel label, like a mob spawn egg tile */
+.mob-btn {
+  position: relative;
+  font-family: var(--font-pixel), monospace;
+  background: var(--mc-btn);
+  color: #fff;
+  text-shadow: 1px 1px 0 #2b2b2b;
+  padding: 12px 8px 10px;
+  font-size: 9px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  outline: 2px solid #1b1b1b;
+  box-shadow:
+    inset 2px 2px 0 var(--mc-btn-light),
+    inset -2px -2px 0 var(--mc-btn-dark);
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+.mob-btn .mob-icon {
+  font-size: 30px;
+  line-height: 1;
+  animation: mc-bob 1.6s ease-in-out infinite;
+  filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.35));
+}
+
+.mob-btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+}
+
+.mob-btn:hover .mob-icon {
+  animation-duration: 0.5s;
+}
+
+.mob-btn:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset -2px -2px 0 var(--mc-btn-light),
+    inset 2px 2px 0 var(--mc-btn-dark);
+}
+
+.mob-btn.selected {
+  background: #3f6b2c;
+  animation: mc-pulse 1.2s ease-in-out infinite;
+}
+
+/* Ground strip footer, tiled dirt/grass blocks */
+.ground-strip {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  height: 64px;
+}
+
+.ground-strip .tile {
+  flex: 0 0 64px;
+  height: 64px;
+  background-color: var(--mc-dirt);
+  background-image:
+    linear-gradient(var(--mc-grass) 0 18%, transparent 18%),
+    radial-gradient(circle at 20% 40%, var(--mc-dirt-dark) 0 5px, transparent 5px),
+    radial-gradient(circle at 70% 60%, var(--mc-dirt-dark) 0 5px, transparent 5px),
+    radial-gradient(circle at 45% 80%, var(--mc-dirt-dark) 0 4px, transparent 4px);
+  border-right: 2px solid #1b1b1b;
+}
