@@ -2,6 +2,8 @@
 
 A Minecraft-themed math practice game, built with [Next.js](https://nextjs.org) and bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+**Live app:** https://my-app-seven-blue-25.vercel.app/
+
 ## Getting Started
 
 First, run the development server:
