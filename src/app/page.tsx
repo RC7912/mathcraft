@@ -58,6 +58,7 @@ export default function Home() {
   const [screen, setScreen] = useState<Screen>("menu");
   const [operation, setOperation] = useState<Operation>("add");
   const [difficulty, setDifficulty] = useState(1);
+  const [brazilMode, setBrazilMode] = useState(false);
 
   const [questionIndex, setQuestionIndex] = useState(0);
   const [question, setQuestion] = useState(() => makeQuestion("add", 1));
@@ -122,7 +123,25 @@ export default function Home() {
   const currentMob = OPS.find((o) => o.key === operation)?.mob ?? "\u{1F416}";
 
   return (
-    <div className="flex flex-col flex-1 min-h-screen">
+    <div
+      className={`flex flex-col flex-1 min-h-screen app-sky ${
+        brazilMode ? "brazil-mode" : ""
+      }`}
+    >
+      <button
+        className="mc-btn pixel-border text-[9px] sm:text-[10px] px-3 py-2"
+        style={{
+          position: "fixed",
+          top: 12,
+          right: 12,
+          zIndex: 10,
+          width: "auto",
+        }}
+        onClick={() => setBrazilMode((b) => !b)}
+      >
+        {"\u{1F1E7}\u{1F1F7}"} BRAZIL MODE {brazilMode ? "ON" : "OFF"}
+      </button>
+
       <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 py-16">
         <div className="grass-block" />
 
