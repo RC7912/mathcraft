@@ -5,18 +5,57 @@ import { useEffect, useMemo, useRef, useState } from "react";
 type Operation = "add" | "sub" | "mul" | "div";
 type Screen = "menu" | "settings" | "play" | "result";
 
-const OPS: { key: Operation; label: string; symbol: string; mob: string }[] = [
-  { key: "add", label: "ADDITION", symbol: "+", mob: "\u{1F416}" }, // pig
-  { key: "sub", label: "SUBTRACTION", symbol: "-", mob: "\u{1F404}" }, // cow
-  { key: "mul", label: "MULTIPLICATION", symbol: "×", mob: "\u{1F9DF}" }, // zombie-ish
-  { key: "div", label: "DIVISION", symbol: "÷", mob: "\u{1F577}️" }, // spider
+const OPS: { key: Operation; label: string; labelPt: string; symbol: string; mob: string }[] = [
+  { key: "add", label: "ADDITION", labelPt: "ADIÇÃO", symbol: "+", mob: "\u{1F416}" }, // pig
+  { key: "sub", label: "SUBTRACTION", labelPt: "SUBTRAÇÃO", symbol: "-", mob: "\u{1F404}" }, // cow
+  { key: "mul", label: "MULTIPLICATION", labelPt: "MULTIPLICAÇÃO", symbol: "×", mob: "\u{1F9DF}" }, // zombie-ish
+  { key: "div", label: "DIVISION", labelPt: "DIVISÃO", symbol: "÷", mob: "\u{1F577}️" }, // spider
 ];
 
-const DIFFICULTIES: { level: number; label: string; mob: string }[] = [
-  { level: 1, label: "EASY", mob: "\u{1F411}" }, // sheep
-  { level: 2, label: "MEDIUM", mob: "\u{1F43A}" }, // wolf
-  { level: 3, label: "HARD", mob: "\u{1F479}" }, // creeper-ish ogre
+const DIFFICULTIES: { level: number; label: string; labelPt: string; mob: string }[] = [
+  { level: 1, label: "EASY", labelPt: "FÁCIL", mob: "\u{1F411}" }, // sheep
+  { level: 2, label: "MEDIUM", labelPt: "MÉDIO", mob: "\u{1F43A}" }, // wolf
+  { level: 3, label: "HARD", labelPt: "DIFÍCIL", mob: "\u{1F479}" }, // creeper-ish ogre
 ];
+
+const TEXT = {
+  en: {
+    intro: (n: number) =>
+      `Mine blocks by solving math problems! Pick a topic and difficulty, then answer ${n} questions as fast as you can.`,
+    startLesson: "START LESSON",
+    chooseTopic: "CHOOSE TOPIC",
+    chooseDifficulty: "CHOOSE DIFFICULTY",
+    mine: "MINE!",
+    back: "BACK",
+    question: "QUESTION",
+    blocksMined: "BLOCKS MINED",
+    submit: "SUBMIT",
+    correct: "CORRECT! +1 BLOCK MINED",
+    wrong: "WRONG. ANSWER:",
+    roundComplete: "ROUND COMPLETE!",
+    accuracy: "ACCURACY",
+    playAgain: "PLAY AGAIN",
+    changeTopic: "CHANGE TOPIC",
+  },
+  pt: {
+    intro: (n: number) =>
+      `Minere blocos resolvendo problemas de matemática! Escolha um tema e uma dificuldade, depois responda ${n} perguntas o mais rápido que puder.`,
+    startLesson: "COMEÇAR LIÇÃO",
+    chooseTopic: "ESCOLHA O TEMA",
+    chooseDifficulty: "ESCOLHA A DIFICULDADE",
+    mine: "MINERAR!",
+    back: "VOLTAR",
+    question: "PERGUNTA",
+    blocksMined: "BLOCOS MINERADOS",
+    submit: "ENVIAR",
+    correct: "CORRETO! +1 BLOCO MINERADO",
+    wrong: "ERRADO. RESPOSTA:",
+    roundComplete: "RODADA COMPLETA!",
+    accuracy: "PRECISÃO",
+    playAgain: "JOGAR DE NOVO",
+    changeTopic: "MUDAR TEMA",
+  },
+};
 
 const QUESTIONS_PER_ROUND = 10;
 
@@ -121,6 +160,7 @@ export default function Home() {
   }
 
   const currentMob = OPS.find((o) => o.key === operation)?.mob ?? "\u{1F416}";
+  const t = brazilMode ? TEXT.pt : TEXT.en;
 
   return (
     <div
@@ -152,15 +192,13 @@ export default function Home() {
         {screen === "menu" && (
           <div className="mc-pop flex flex-col items-center gap-8">
             <p className="mc-panel text-black text-[11px] sm:text-xs leading-6 px-5 py-4 max-w-md text-center">
-              Mine blocks by solving math problems! Pick a topic and
-              difficulty, then answer {QUESTIONS_PER_ROUND} questions as
-              fast as you can.
+              {t.intro(QUESTIONS_PER_ROUND)}
             </p>
             <button
               className="mc-btn pixel-border"
               onClick={() => setScreen("settings")}
             >
-              {"⚔️"} START LESSON
+              {"⚔️"} {t.startLesson}
             </button>
           </div>
         )}
@@ -168,7 +206,7 @@ export default function Home() {
         {screen === "settings" && (
           <div className="mc-pop mc-panel text-black w-full max-w-md px-5 py-6 flex flex-col gap-6">
             <div>
-              <p className="text-[11px] mb-3">CHOOSE TOPIC</p>
+              <p className="text-[11px] mb-3">{t.chooseTopic}</p>
               <div className="grid grid-cols-2 gap-2">
                 {OPS.map((o) => (
                   <button
@@ -179,14 +217,14 @@ export default function Home() {
                     }`}
                   >
                     <span className="mob-icon">{o.mob}</span>
-                    {o.label}
+                    {brazilMode ? o.labelPt : o.label}
                   </button>
                 ))}
               </div>
             </div>
 
             <div>
-              <p className="text-[11px] mb-3">CHOOSE DIFFICULTY</p>
+              <p className="text-[11px] mb-3">{t.chooseDifficulty}</p>
               <div className="grid grid-cols-3 gap-2">
                 {DIFFICULTIES.map((d) => (
                   <button
@@ -197,20 +235,20 @@ export default function Home() {
                     }`}
                   >
                     <span className="mob-icon">{d.mob}</span>
-                    {d.label}
+                    {brazilMode ? d.labelPt : d.label}
                   </button>
                 ))}
               </div>
             </div>
 
             <button className="mc-btn pixel-border" onClick={startRound}>
-              {"⛏️"} MINE!
+              {"⛏️"} {t.mine}
             </button>
             <button
               className="mc-btn pixel-border text-[10px]"
               onClick={() => setScreen("menu")}
             >
-              BACK
+              {t.back}
             </button>
           </div>
         )}
@@ -223,8 +261,8 @@ export default function Home() {
             }`}
           >
             <p className="text-[10px] self-start">
-              QUESTION {questionIndex + 1} / {QUESTIONS_PER_ROUND} &nbsp;|&nbsp;
-              BLOCKS MINED: {blocksMined}
+              {t.question} {questionIndex + 1} / {QUESTIONS_PER_ROUND} &nbsp;|&nbsp;
+              {t.blocksMined}: {blocksMined}
             </p>
 
             <span className="text-4xl mob-icon">{currentMob}</span>
@@ -248,18 +286,18 @@ export default function Home() {
                 className="mc-btn pixel-border"
                 disabled={feedback !== "none"}
               >
-                SUBMIT
+                {t.submit}
               </button>
             </form>
 
             {feedback === "correct" && (
               <p className="text-[#2e7d1a] text-xs">
-                {"✅"} CORRECT! +1 BLOCK MINED
+                {"✅"} {t.correct}
               </p>
             )}
             {feedback === "wrong" && (
               <p className="text-[#a11d1d] text-xs">
-                {"❌"} WRONG. ANSWER: {question.answer}
+                {"❌"} {t.wrong} {question.answer}
               </p>
             )}
           </div>
@@ -268,12 +306,12 @@ export default function Home() {
         {screen === "result" && (
           <div className="mc-pop mc-panel text-black w-full max-w-md px-5 py-6 flex flex-col items-center gap-4 text-center">
             <p className="text-[13px]">
-              {accuracy >= 80 ? "\u{1F3C6} " : ""}ROUND COMPLETE!
+              {accuracy >= 80 ? "\u{1F3C6} " : ""}{t.roundComplete}
             </p>
             <p className="text-[11px] leading-7">
-              BLOCKS MINED: {blocksMined} / {QUESTIONS_PER_ROUND}
+              {t.blocksMined}: {blocksMined} / {QUESTIONS_PER_ROUND}
               <br />
-              ACCURACY: {accuracy}%
+              {t.accuracy}: {accuracy}%
             </p>
             <div className="flex gap-2 flex-wrap justify-center">
               {Array.from({ length: blocksMined }).map((_, i) => (
@@ -285,13 +323,13 @@ export default function Home() {
               ))}
             </div>
             <button className="mc-btn pixel-border w-full" onClick={startRound}>
-              {"\u{1F504}"} PLAY AGAIN
+              {"\u{1F504}"} {t.playAgain}
             </button>
             <button
               className="mc-btn pixel-border w-full text-[10px]"
               onClick={() => setScreen("settings")}
             >
-              CHANGE TOPIC
+              {t.changeTopic}
             </button>
           </div>
         )}
