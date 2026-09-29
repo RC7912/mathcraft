@@ -163,11 +163,7 @@ export default function Home() {
   const t = brazilMode ? TEXT.pt : TEXT.en;
 
   return (
-    <div
-      className={`flex flex-col flex-1 min-h-screen app-sky ${
-        brazilMode ? "brazil-mode" : ""
-      }`}
-    >
+    <div className="flex flex-col flex-1 min-h-screen app-sky">
       <button
         className="mc-btn pixel-border text-[9px] sm:text-[10px] px-3 py-2"
         style={{

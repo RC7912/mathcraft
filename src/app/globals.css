@@ -16,30 +16,6 @@
   --mc-btn-dark: #2f2f2f;
 }
 
-/* Brazil mode: swap the palette for the Brazilian flag colors */
-.brazil-mode {
-  --mc-sky-top: #009c3b;
-  --mc-sky-bottom: #ffdf00;
-  --mc-grass: #009c3b;
-  --mc-grass-dark: #007a2e;
-  --mc-dirt: #002776;
-  --mc-dirt-dark: #001c57;
-  --mc-panel: #ffdf00;
-  --mc-panel-light: #fff4b0;
-  --mc-panel-dark: #cbab00;
-  --mc-btn: #009c3b;
-  --mc-btn-hover: #00b845;
-  --mc-btn-light: #4fd67e;
-  --mc-btn-dark: #002776;
-}
-
-.brazil-mode .mc-title .accent {
-  color: #ffdf00;
-  text-shadow:
-    3px 3px 0 #002776,
-    6px 6px 0 #001c57;
-}
-
 @theme inline {
   --color-background: var(--mc-sky-bottom);
   --font-pixel: var(--font-pixel);
